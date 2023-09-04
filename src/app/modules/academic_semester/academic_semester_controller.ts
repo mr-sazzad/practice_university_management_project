@@ -64,9 +64,11 @@ export const getSingleAcademicSemester: RequestHandler = async (
     const result = await academicSemester.getSingleAcademicSemester(id);
 
     res.status(200).json({
-      statusCode: 200,
-      success: true,
-      message: 'Academic Semester retrieved successfully !',
+      statusCode: result ? 200 : 404,
+      success: result ? true : false,
+      message: result
+        ? 'Academic Semester retrieved successfully !'
+        : 'NOT FOUND',
       data: result,
     });
   } catch (err: any) {

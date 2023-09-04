@@ -66,14 +66,16 @@ const getAllSemesters = async (
 
   const total = await prisma.academicSemester.count();
 
-  return {
+  const response: IGenericResponse<AcademicSemester[]> = {
     meta: {
       total,
       page,
-      pageSize: 10,
+      pageSize,
     },
     data,
   };
+
+  return response;
 };
 
 const getSingleAcademicSemester = async (
