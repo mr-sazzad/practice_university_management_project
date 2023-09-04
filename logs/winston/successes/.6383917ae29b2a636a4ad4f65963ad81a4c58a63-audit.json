@@ -1,0 +1,35 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\.6383917ae29b2a636a4ad4f65963ad81a4c58a63-audit.json",
+    "files": [
+        {
+            "date": 1692796008355,
+            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-23-08-19-success.log",
+            "hash": "e8f0498682635871b910248366cb33a2c52d7b48099e11a44cbb52caa221bd68"
+        },
+        {
+            "date": 1692802055034,
+            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-23-08-20-success.log",
+            "hash": "5ac7092230448e766a77db014d5018666e73ab60f15116e6c65a027f5f35c082"
+        },
+        {
+            "date": 1692802821643,
+            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-23-08-21-success.log",
+            "hash": "d41f8d66b1fbedd00d3b4eb803f8282f9fd5b9aca0d3b28c25ef53306662bc7d"
+        },
+        {
+            "date": 1692854141522,
+            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-24-08-11-success.log",
+            "hash": "366546ea233e99d1482d295db4921fa17d4883ae7b6f876147f519b07aee971b"
+        },
+        {
+            "date": 1692857092430,
+            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-24-08-12-success.log",
+            "hash": "a87c5fd82541752044ef6184543bf530bc8dd9a3228697106df3c007575aad5a"
+        }
+    ],
+    "hashType": "sha256"
+}

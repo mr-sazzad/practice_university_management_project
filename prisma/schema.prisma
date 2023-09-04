@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  studentId    String @id @default(uuid())
+  firstName    String
+  lastName     String
+  meddleName   String
+  profileImage String
+  email        String
+  contactNo    String
+  gender       String
+  bloodGroup   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  semesterId       String
+  academicSemester AcademicSemester @relation(fields: [semesterId], references: [id])
+
+  facultyId       String
+  academicFaculty AcademicFaculty @relation(fields: [facultyId], references: [id])
+
+  departmentId       String
+  academicDepartment AcademicDepartment @relation(fields: [departmentId], references: [id])
+
+  @@map("students")
+}
+
+model Faculty {
+  id           String @id @default(uuid())
+  firstName    String
+  lastName     String
+  meddleName   String
+  profileImage String
+  email        String
+  contactNo    String
+  gender       String
+  bloodGroup   String
+  designation  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  facultyId       String
+  academicFaculty AcademicFaculty @relation(fields: [facultyId], references: [id])
+
+  departmentId       String
+  academicDepartment AcademicDepartment @relation(fields: [departmentId], references: [id])
+
+  @@map("faculty")
+}
+
+model AcademicSemester {
+  id         String    @id @default(uuid())
+  year       Int
+  title      String
+  code       String
+  startMonth String
+  endMonth   String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  students   Student[]
+
+  @@map("academic_semester")
+}
+
+model AcademicFaculty {
+  id                  String               @id @default(uuid())
+  title               String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  academicDepartments AcademicDepartment[]
+  students            Student[]
+  faculties           Faculty[]
+
+  @@map("academic_faculty")
+}
+
+model AcademicDepartment {
+  id        String   @id @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  academicFacultyId String
+  academicFaculty   AcademicFaculty @relation(fields: [academicFacultyId], references: [id])
+  students          Student[]
+  faculties         Faculty[]
+
+  @@map("academic_departments")
+}
