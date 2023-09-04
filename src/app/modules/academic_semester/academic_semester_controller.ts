@@ -45,9 +45,29 @@ export const getAllSemesters: RequestHandler = async (req, res, next) => {
     res.status(201).json({
       statusCode: 201,
       success: true,
-      message: 'Academic Semester created successfully !',
+      message: 'Academic Semesters retrieved successfully !',
       meta: result.meta,
       data: result.data,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const getSingleAcademicSemester: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { id } = req.params;
+    const result = await academicSemester.getSingleAcademicSemester(id);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Academic Semester retrieved successfully !',
+      data: result,
     });
   } catch (err: any) {
     next(err);
