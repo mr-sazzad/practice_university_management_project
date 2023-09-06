@@ -62,3 +62,21 @@ export const getSingleStudent: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updateSingleUser: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body;
+
+    const result = studentServices.updateSingleUser(id, payload);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'student updated successfully !',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
