@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import pick from '../../../shared/pick';
 import { studentServices } from './student_services';
 
 export const createStudent: RequestHandler = async (req, res, next) => {
@@ -19,7 +20,21 @@ export const createStudent: RequestHandler = async (req, res, next) => {
 
 export const getAllStudents: RequestHandler = async (req, res, next) => {
   try {
-    const result = await studentServices.getAllUsers();
+    const filters = pick(req.query, [
+      'searchTerm',
+      'code',
+      'startMonth',
+      'endMonth',
+      'title',
+    ]);
+
+    const options = pick(req.query, [
+      'page',
+      'pageSize',
+      'sortBy',
+      'sortOrder',
+    ]);
+    const result = await studentServices.getAllUsers(filters, options);
 
     res.status(200).json({
       statusCode: 200,

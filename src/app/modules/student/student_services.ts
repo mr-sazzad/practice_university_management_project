@@ -1,4 +1,7 @@
-import { Student } from '@prisma/client';
+import { Prisma, Student } from '@prisma/client';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IFilters, IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../libs/prismadb';
 
 const createStudent = async (data: Student): Promise<Student> => {
@@ -9,10 +12,64 @@ const createStudent = async (data: Student): Promise<Student> => {
   return createdUser;
 };
 
-const getAllUsers = async () => {
-  const users = await prisma.student.findMany({});
+const getAllUsers = async (filters: IFilters, options: IPaginationOptions) => {
+  const { page, pageSize, skip } =
+    paginationHelpers.calculatePagination(options);
 
-  return users;
+  const { searchTerm, ...others } = filters;
+
+  const andCondition = [];
+
+  if (searchTerm) {
+    andCondition.push({
+      OR: ['title', 'code', 'startMonth', 'endMonth'].map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(others).length > 0) {
+    andCondition.push({
+      AND: Object.keys(others).map(field => ({
+        [field]: {
+          equals: (others as any)[field],
+        },
+      })),
+    });
+  }
+
+  const whereConditions: Prisma.StudentWhereInput =
+    andCondition.length > 0 ? { AND: andCondition } : {};
+
+  const data = await prisma.student.findMany({
+    where: whereConditions,
+    skip,
+    take: pageSize,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? {
+            [options.sortBy]: options.sortOrder,
+          }
+        : {
+            createdAt: 'desc',
+          },
+  });
+
+  const total = await prisma.student.count();
+
+  const response: IGenericResponse<Student[]> = {
+    meta: {
+      total,
+      page,
+      pageSize,
+    },
+    data,
+  };
+
+  return response;
 };
 
 const getSingleUser = async (studentId: string): Promise<Student | null> => {

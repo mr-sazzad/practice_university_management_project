@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import pick from '../../../shared/pick';
 import { facultyServices } from './faculty_sevices';
 
 export const createFaculty: RequestHandler = async (req, res, next) => {
@@ -19,7 +20,21 @@ export const createFaculty: RequestHandler = async (req, res, next) => {
 
 export const getAllFaculty: RequestHandler = async (req, res, next) => {
   try {
-    const result = await facultyServices.getAllFaculty();
+    const filters = pick(req.query, [
+      'searchTerm',
+      'code',
+      'startMonth',
+      'endMonth',
+      'title',
+    ]);
+
+    const options = pick(req.query, [
+      'page',
+      'pageSize',
+      'sortBy',
+      'sortOrder',
+    ]);
+    const result = await facultyServices.getAllFaculty(filters, options);
 
     res.status(200).json({
       statusCode: 200,
