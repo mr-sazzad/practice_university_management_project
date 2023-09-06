@@ -42,8 +42,8 @@ export const getAllSemesters: RequestHandler = async (req, res, next) => {
 
     const result = await academicSemester.getAllSemesters(filters, options);
 
-    res.status(201).json({
-      statusCode: 201,
+    res.status(200).json({
+      statusCode: 200,
       success: true,
       message: 'Academic Semesters retrieved successfully !',
       meta: result.meta,
