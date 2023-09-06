@@ -1,4 +1,7 @@
-import { Faculty } from '@prisma/client';
+import { Faculty, Prisma } from '@prisma/client';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IFilters, IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../libs/prismadb';
 
 const createFaculty = async (data: Faculty): Promise<Faculty> => {
@@ -9,10 +12,66 @@ const createFaculty = async (data: Faculty): Promise<Faculty> => {
   return createdFaculty;
 };
 
-const getAllFaculty = async () => {
-  const faculties = await prisma.faculty.findMany({});
+const getAllFaculty = async (
+  filters: IFilters,
+  options: IPaginationOptions
+) => {
+  const { page, pageSize, skip } =
+    paginationHelpers.calculatePagination(options);
 
-  return faculties;
+  const { searchTerm, ...others } = filters;
+
+  const andCondition = [];
+
+  if (searchTerm) {
+    andCondition.push({
+      OR: ['title', 'code', 'startMonth', 'endMonth'].map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(others).length > 0) {
+    andCondition.push({
+      AND: Object.keys(others).map(field => ({
+        [field]: {
+          equals: (others as any)[field],
+        },
+      })),
+    });
+  }
+
+  const whereConditions: Prisma.FacultyWhereInput =
+    andCondition.length > 0 ? { AND: andCondition } : {};
+
+  const data = await prisma.faculty.findMany({
+    where: whereConditions,
+    skip,
+    take: pageSize,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? {
+            [options.sortBy]: options.sortOrder,
+          }
+        : {
+            createdAt: 'desc',
+          },
+  });
+  const total = await prisma.academicSemester.count();
+
+  const response: IGenericResponse<Faculty[]> = {
+    meta: {
+      total,
+      page,
+      pageSize,
+    },
+    data,
+  };
+
+  return response;
 };
 
 const getSingleFaculty = async (id: string): Promise<Faculty | null> => {
