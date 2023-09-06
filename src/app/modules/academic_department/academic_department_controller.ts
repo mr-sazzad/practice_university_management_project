@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import pick from '../../../shared/pick';
 import { departmentServices } from './academic_department_services';
 
 export const createAcademicDepartment: RequestHandler = async (
@@ -23,12 +24,27 @@ export const createAcademicDepartment: RequestHandler = async (
 
 export const getAllDepartments: RequestHandler = async (req, res, next) => {
   try {
-    const result = await departmentServices.getAllDepartments();
+    const filters = pick(req.query, [
+      'searchTerm',
+      'code',
+      'startMonth',
+      'endMonth',
+      'title',
+    ]);
+
+    const options = pick(req.query, [
+      'page',
+      'pageSize',
+      'sortBy',
+      'sortOrder',
+    ]);
+
+    const result = await departmentServices.getAllDepartments(filters, options);
 
     res.status(200).json({
       statusCode: 200,
       success: true,
-      message: 'students retrieved successfully !',
+      message: 'Academic Departments retrieved successfully !',
       data: result,
     });
   } catch (err: any) {
@@ -44,7 +60,7 @@ export const getSingleDepartment: RequestHandler = async (req, res, next) => {
     res.status(200).json({
       statusCode: 200,
       success: true,
-      message: 'student retrieved successfully !',
+      message: 'Academic Department retrieved successfully !',
       data: result,
     });
   } catch (err: any) {
