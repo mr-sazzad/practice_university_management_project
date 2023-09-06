@@ -100,8 +100,35 @@ const getSingleAcademicSemester = async (
   return result;
 };
 
+const updateSingleAcademicSemester = async (
+  id: string,
+  data: Partial<AcademicSemester>
+): Promise<AcademicSemester> => {
+  const updatedAcademicSemester = prisma.academicSemester.update({
+    where: {
+      id,
+    },
+    data,
+  });
+
+  return updatedAcademicSemester;
+};
+
+const deleteSingleAcademicSemester = async (
+  id: string
+): Promise<AcademicSemester | null> => {
+  const deletedAcademicSemester = prisma.academicSemester.delete({
+    where: {
+      id,
+    },
+  });
+  return deletedAcademicSemester;
+};
+
 export const academicSemester = {
   createAcademicSemester,
   getAllSemesters,
   getSingleAcademicSemester,
+  updateSingleAcademicSemester,
+  deleteSingleAcademicSemester,
 };

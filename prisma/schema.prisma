@@ -11,10 +11,11 @@ datasource db {
 }
 
 model Student {
-  studentId    String @id @default(uuid())
+  id           String @id @default(uuid())
+  studentId    String
   firstName    String
   lastName     String
-  meddleName   String
+  middleName   String
   profileImage String
   email        String
   contactNo    String

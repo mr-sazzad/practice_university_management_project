@@ -1,16 +1,22 @@
 import { Router } from 'express';
 import {
   createAcademicDepartment,
+  deleteSingleDepartment,
   getAllDepartments,
   getSingleDepartment,
+  updateSingleDepartment,
 } from './academic_department_controller';
 
 const router = Router();
 
-router.post('/create-student', createAcademicDepartment);
+router.post('/create-department', createAcademicDepartment);
 
 router.get('/', getAllDepartments);
 
 router.get('/:id', getSingleDepartment);
 
-export const studentRoutes = router;
+router.patch('/:id', updateSingleDepartment);
+
+router.delete('/:id', deleteSingleDepartment);
+
+export const academicDepartmentRoutes = router;

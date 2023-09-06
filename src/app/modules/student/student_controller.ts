@@ -49,8 +49,8 @@ export const getAllStudents: RequestHandler = async (req, res, next) => {
 
 export const getSingleStudent: RequestHandler = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const result = await studentServices.getSingleUser(id);
+    const { id } = req.params;
+    const result = await studentServices.getSingleStudent(id);
 
     res.status(200).json({
       statusCode: 200,
@@ -74,6 +74,22 @@ export const updateSingleUser: RequestHandler = async (req, res, next) => {
       statusCode: 200,
       success: true,
       message: 'student updated successfully !',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const deleteSingleUser: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await studentServices.deleteSingleUser(id);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'student deleted successfully !',
       data: result,
     });
   } catch (err: any) {

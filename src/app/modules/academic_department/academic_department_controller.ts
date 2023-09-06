@@ -67,3 +67,44 @@ export const getSingleDepartment: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const updateSingleDepartment: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const result = await departmentServices.updateSingleDepartment(id, data);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Academic Department Updated successfully !',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const deleteSingleDepartment: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const id = req.params.id;
+    const result = await departmentServices.deleteSingleDepartment(id);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Academic Department Deleted successfully !',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

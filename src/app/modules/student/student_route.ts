@@ -2,6 +2,7 @@ import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import {
   createStudent,
+  deleteSingleUser,
   getAllStudents,
   getSingleStudent,
   updateSingleUser,
@@ -17,5 +18,7 @@ router.get('/', getAllStudents);
 router.get('/:id', getSingleStudent);
 
 router.patch('/:id', validateRequest(update), updateSingleUser);
+
+router.delete('/:id', deleteSingleUser);
 
 export const studentRoutes = router;

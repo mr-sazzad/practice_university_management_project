@@ -5,11 +5,11 @@ import { IFilters, IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../libs/prismadb';
 
 const createStudent = async (data: Student): Promise<Student> => {
-  const createdUser = await prisma.student.create({
+  const createdStudent = await prisma.student.create({
     data,
   });
 
-  return createdUser;
+  return createdStudent;
 };
 
 const getAllUsers = async (filters: IFilters, options: IPaginationOptions) => {
@@ -72,32 +72,53 @@ const getAllUsers = async (filters: IFilters, options: IPaginationOptions) => {
   return response;
 };
 
-const getSingleUser = async (studentId: string): Promise<Student | null> => {
-  const user = await prisma.student.findUnique({
+const getSingleStudent = async (id: string): Promise<Student | null> => {
+  const student = await prisma.student.findUnique({
     where: {
-      studentId,
+      id,
     },
   });
 
-  return user;
+  return student;
 };
 
 const updateSingleUser = async (
-  studentId: string,
+  id: string,
   data: Partial<Student>
 ): Promise<Student> => {
   const updatedUser = prisma.student.update({
     where: {
-      studentId,
+      id,
     },
     data,
+    include: {
+      academicSemester: true,
+      academicDepartment: true,
+      academicFaculty: true,
+    },
   });
 
   return updatedUser;
 };
+
+const deleteSingleUser = async (id: string): Promise<Student | null> => {
+  const deletedUser = prisma.student.delete({
+    where: {
+      id,
+    },
+    include: {
+      academicSemester: true,
+      academicDepartment: true,
+      academicFaculty: true,
+    },
+  });
+  return deletedUser;
+};
+
 export const studentServices = {
   createStudent,
   getAllUsers,
-  getSingleUser,
+  getSingleStudent,
   updateSingleUser,
+  deleteSingleUser,
 };
