@@ -7,4 +7,4 @@ const router = Router();
 
 router.post('/create-room', validateRequest(create), createRoom);
 
-export const roomRouter = router;
+export const roomRoutes = router;
