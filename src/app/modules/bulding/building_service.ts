@@ -1,4 +1,5 @@
 import { Building, Prisma } from '@prisma/client';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IFilters, IPaginationOptions } from '../../../interfaces/pagination';
@@ -63,7 +64,55 @@ const getAllBuildings = async (
   };
 };
 
+const getSingleBuilding = async (id: string) => {
+  if (!id) {
+    throw new ApiError(401, 'BAD REQUEST !');
+  }
+
+  const result = await prisma.building.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
+const updateSingleBuilding = async (
+  id: string,
+  data: Partial<Building>
+): Promise<Building> => {
+  if (!id) {
+    throw new ApiError(401, 'BAD REQUEST !');
+  }
+
+  const result = await prisma.building.update({
+    where: {
+      id,
+    },
+    data,
+  });
+  return result;
+};
+
+const deleteSingleBuilding = async (id: string) => {
+  if (!id) {
+    throw new ApiError(401, 'BAD REQUEST !');
+  }
+
+  const result = await prisma.building.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const buildingServices = {
   createBuilding,
   getAllBuildings,
+  getSingleBuilding,
+  updateSingleBuilding,
+  deleteSingleBuilding,
 };
