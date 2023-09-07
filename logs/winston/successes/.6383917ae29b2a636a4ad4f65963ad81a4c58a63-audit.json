@@ -6,16 +6,6 @@
     "auditLog": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\.6383917ae29b2a636a4ad4f65963ad81a4c58a63-audit.json",
     "files": [
         {
-            "date": 1692854141522,
-            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-24-08-11-success.log",
-            "hash": "366546ea233e99d1482d295db4921fa17d4883ae7b6f876147f519b07aee971b"
-        },
-        {
-            "date": 1692857092430,
-            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-24-08-12-success.log",
-            "hash": "a87c5fd82541752044ef6184543bf530bc8dd9a3228697106df3c007575aad5a"
-        },
-        {
             "date": 1693841063629,
             "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-04-09-21-success.log",
             "hash": "42106ae7192bd39718b85d02937eee9116775ab86f07538a693e120405677f8e"
@@ -49,6 +39,11 @@
             "date": 1694052458924,
             "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-07-09-08-success.log",
             "hash": "db9b5ddd7e688852efd62ed7fa2ce5aef28fc669ffa208c2808ae8fb917851fa"
+        },
+        {
+            "date": 1694075097245,
+            "name": "E:\\Programming-hero\\UM-core-service\\university-management-core-service-starter\\logs\\winston\\successes\\phu-2023-07-09-14-success.log",
+            "hash": "96727cd092e5508e569917167b62f79d58ac45f15f0ea4a19363890407b4d49f"
         }
     ],
     "hashType": "sha256"
