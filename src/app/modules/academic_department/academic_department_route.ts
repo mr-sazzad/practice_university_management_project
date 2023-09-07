@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import validateRequest from '../../middlewares/validateRequest';
 import {
   createAcademicDepartment,
   deleteSingleDepartment,
@@ -6,10 +7,15 @@ import {
   getSingleDepartment,
   updateSingleDepartment,
 } from './academic_department_controller';
+import { create } from './academic_department_validation';
 
 const router = Router();
 
-router.post('/create-department', createAcademicDepartment);
+router.post(
+  '/create-department',
+  validateRequest(create),
+  createAcademicDepartment
+);
 
 router.get('/', getAllDepartments);
 
