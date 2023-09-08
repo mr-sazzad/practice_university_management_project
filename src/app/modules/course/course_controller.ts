@@ -104,3 +104,21 @@ export const assignFaculties: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const removeFaculties: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body.faculties;
+
+    const result = await courseServices.removeFaculties(id, payload);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Faculties removed successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

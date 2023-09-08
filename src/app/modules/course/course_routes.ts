@@ -5,6 +5,7 @@ import {
   deleteSingleCourse,
   getAllCourses,
   getSingleCourse,
+  removeFaculties,
   updateSingleCourse,
 } from './course_controller';
 
@@ -21,5 +22,7 @@ router.get('/:id', getSingleCourse);
 router.delete('/:id', deleteSingleCourse);
 
 router.post('/:id/assign-faculties', assignFaculties);
+
+router.delete('/:id/remove-faculties', removeFaculties);
 
 export const courseRoutes = router;
