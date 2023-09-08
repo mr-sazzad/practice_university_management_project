@@ -75,3 +75,45 @@ export const getSingleAcademicSemester: RequestHandler = async (
     next(err);
   }
 };
+
+export const updateSingleAcademicSemester: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body;
+    const result = await academicSemester.updateSingleAcademicSemester(
+      id,
+      payload
+    );
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Academic Semester updated successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const deleteSingleAcademicSemester: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const { id } = req.params;
+    const result = await academicSemester.deleteSingleAcademicSemester(id);
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Academic Semester deleted successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

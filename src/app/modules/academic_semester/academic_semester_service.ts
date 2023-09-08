@@ -12,6 +12,10 @@ const createAcademicSemester = async (
     data,
   });
 
+  if (!result) {
+    throw new ApiError(500, 'Internal Server Error');
+  }
+
   return result;
 };
 

@@ -23,6 +23,6 @@ router.use('/buildings', buildingRoutes);
 
 router.use('/rooms', roomRoutes);
 
-router.use('/semesters');
+// router.use('/semesters', );
 
 export default router;

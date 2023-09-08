@@ -99,6 +99,9 @@ const getSingleCreatedSemester = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      academicSemester: true,
+    },
   });
   return result;
 };
@@ -107,9 +110,38 @@ const updateSingleSemester = async (
   id: string,
   payload: Partial<SemesterRegistration>
 ): Promise<SemesterRegistration> => {
+  const isExist = await prisma.semesterRegistration.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!isExist) {
+    throw new ApiError(404, 'Recourse Not Found !');
+  }
+
+  if (
+    payload.status &&
+    isExist.status === semesterRegistrationStatus.UPCOMING &&
+    payload.status === semesterRegistrationStatus.ONGOING
+  ) {
+    throw new ApiError(400, 'Can Only Move From UPCOMING to ONGOING');
+  }
+
+  if (
+    payload.status &&
+    isExist.status === semesterRegistrationStatus.ONGOING &&
+    payload.status === semesterRegistrationStatus.ENDED
+  ) {
+    throw new ApiError(400, 'Can Only Move From ONGOING to ENDED');
+  }
+
   const result = await prisma.semesterRegistration.update({
     where: { id },
     data: payload,
+    include: {
+      academicSemester: true,
+    },
   });
 
   return result;
@@ -118,6 +150,9 @@ const updateSingleSemester = async (
 const deleteSingleSemester = async (id: string) => {
   const result = await prisma.semesterRegistration.delete({
     where: { id },
+    include: {
+      academicSemester: true,
+    },
   });
   return result;
 };
