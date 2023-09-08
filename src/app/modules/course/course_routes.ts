@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import validateRequest from '../../middlewares/validateRequest';
 import {
   assignFaculties,
   createCourse,
@@ -8,6 +9,7 @@ import {
   removeFaculties,
   updateSingleCourse,
 } from './course_controller';
+import { assignOrRemove } from './course_validation';
 
 const router = Router();
 
@@ -21,8 +23,16 @@ router.get('/:id', getSingleCourse);
 
 router.delete('/:id', deleteSingleCourse);
 
-router.post('/:id/assign-faculties', assignFaculties);
+router.post(
+  '/:id/assign-faculties',
+  validateRequest(assignOrRemove),
+  assignFaculties
+);
 
-router.delete('/:id/remove-faculties', removeFaculties);
+router.delete(
+  '/:id/remove-faculties',
+  validateRequest(assignOrRemove),
+  removeFaculties
+);
 
 export const courseRoutes = router;

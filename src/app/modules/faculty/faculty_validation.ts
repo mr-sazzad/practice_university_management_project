@@ -15,3 +15,25 @@ export const create = z.object({
     departmentId: z.string({ required_error: 'Department Id is Required !' }),
   }),
 });
+
+export const update = z.object({
+  body: z.object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    meddleName: z.string().optional(),
+    profileImage: z.string().optional(),
+    email: z.string().optional(),
+    contactNo: z.string().optional(),
+    gender: z.string().optional(),
+    bloodGroup: z.string().optional(),
+    designation: z.string().optional(),
+    facultyId: z.string().optional(),
+    departmentId: z.string().optional(),
+  }),
+});
+
+export const assignOrRemove = z.object({
+  body: z.object({
+    courses: z.array(z.string(), { required_error: 'Courses are Required !' }),
+  }),
+});
