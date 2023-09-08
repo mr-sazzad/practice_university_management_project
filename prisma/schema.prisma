@@ -57,6 +57,7 @@ model Faculty {
 
   departmentId       String
   academicDepartment AcademicDepartment @relation(fields: [departmentId], references: [id])
+  faculties          CourseFaculty[]
 
   @@map("faculty")
 }
@@ -131,6 +132,7 @@ model Course {
 
   preRequisite    CourseToPrereqisite[] @relation("preRequisiteCourse")
   preRequisiteFor CourseToPrereqisite[] @relation("preRequisiteForUpComing")
+  faculties       CourseFaculty[]
 
   @@map("courses")
 }
@@ -143,4 +145,15 @@ model CourseToPrereqisite {
   preRequisitCourse Course @relation(fields: [preRequisiteId], references: [id], name: "preRequisiteForUpComing")
 
   @@id([courseId, preRequisiteId])
+}
+
+model CourseFaculty {
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  facultyId String
+  faculty   Faculty @relation(fields: [facultyId], references: [id])
+
+  @@id([courseId, facultyId])
+  @@map("courseFaculty")
 }
