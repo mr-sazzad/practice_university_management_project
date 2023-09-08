@@ -88,3 +88,19 @@ export const deleteSingleCourse: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const assignFaculties: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body.faculties;
+    const result = await courseServices.assignFaculties(id, payload);
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Faculties assigned successfully !',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

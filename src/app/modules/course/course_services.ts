@@ -1,3 +1,4 @@
+import { CourseFaculty } from '@prisma/client';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { ICourse } from '../../../interfaces/common';
@@ -216,10 +217,34 @@ const deleteSingleCourse = async (id: string) => {
   throw new ApiError(401, 'Unable to delete course!');
 };
 
+const assignFaculties = async (
+  id: string,
+  payload: string[]
+): Promise<CourseFaculty[]> => {
+  await prisma.courseFaculty.createMany({
+    data: payload.map(facultyId => ({
+      courseId: id,
+      facultyId,
+    })),
+  });
+
+  const assignedFaculties = await prisma.courseFaculty.findMany({
+    where: {
+      courseId: id,
+    },
+    include: {
+      faculty: true,
+    },
+  });
+
+  return assignedFaculties;
+};
+
 export const courseServices = {
   createCourse,
   getSingleCourse,
   deleteSingleCourse,
   getAllCourses,
   updateSingleCourse,
+  assignFaculties,
 };

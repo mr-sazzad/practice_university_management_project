@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  assignFaculties,
   createCourse,
   deleteSingleCourse,
   getAllCourses,
@@ -18,5 +19,7 @@ router.patch('/:id', updateSingleCourse);
 router.get('/:id', getSingleCourse);
 
 router.delete('/:id', deleteSingleCourse);
+
+router.post('/:id/assign-faculties', assignFaculties);
 
 export const courseRoutes = router;
