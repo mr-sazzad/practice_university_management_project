@@ -62,3 +62,37 @@ export const getSingleFaculty: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const assignedCourses: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body.courses;
+    const result = await facultyServices.assignCourses(id, payload);
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Courses assigned successfully !',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const removeCourses: RequestHandler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body.courses;
+
+    const result = await facultyServices.removeCourses(id, payload);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Courses removed successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
