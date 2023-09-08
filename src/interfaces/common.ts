@@ -19,7 +19,8 @@ export type ICourse = {
   title: string;
   code: string;
   credits: number;
-  preRequisiteCourses: {
+  preRequisiteCourses?: {
     courseId: string;
+    isAcceptDeletion?: boolean;
   }[];
 };

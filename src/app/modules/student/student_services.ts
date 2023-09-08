@@ -5,6 +5,7 @@ import { IFilters, IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../libs/prismadb';
 
 const createStudent = async (data: Student): Promise<Student> => {
+  console.log(data);
   const createdStudent = await prisma.student.create({
     data,
   });
