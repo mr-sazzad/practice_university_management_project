@@ -7,4 +7,5 @@ export type IPaginationOptions = {
 
 export type IFilters = {
   searchTerm?: string;
+  status?: 'UPCOMING' | 'ONGOING' | 'ENDED';
 };

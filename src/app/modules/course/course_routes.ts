@@ -9,11 +9,11 @@ import {
   removeFaculties,
   updateSingleCourse,
 } from './course_controller';
-import { assignOrRemove } from './course_validation';
+import { assignOrRemove, create } from './course_validation';
 
 const router = Router();
 
-router.post('/create-course', createCourse);
+router.post('/create-course', validateRequest(create), createCourse);
 
 router.get('/', getAllCourses);
 
