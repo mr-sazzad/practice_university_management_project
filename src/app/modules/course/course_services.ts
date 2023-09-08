@@ -150,7 +150,7 @@ const updateSingleCourse = async (id: string, payload: Partial<ICourse>) => {
       );
 
       for (let i = 0; i < deletedPreRequisite.length; i++) {
-        await tx.course.deleteMany({
+        await tx.courseToPrereqisite.deleteMany({
           where: {
             AND: [
               { courseId: id },
