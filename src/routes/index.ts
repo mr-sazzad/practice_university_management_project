@@ -4,6 +4,7 @@ import { academicFacultyRouter } from '../app/modules/academic_faculty/academic_
 import academicSemesterRoutes from '../app/modules/academic_semester/academic_semester_route';
 import { buildingRoutes } from '../app/modules/bulding/building_route';
 import { facultyRoutes } from '../app/modules/faculty/faculty_route';
+import { OfferedCourseClassSchedule } from '../app/modules/offered_course_class_schedule/offered_course_class_schedule_route';
 import { OfferedCourseSectionRoutes } from '../app/modules/offered_course_section/offered_course_section_route';
 import { offeredCoursesRoutes } from '../app/modules/offred_couress/offered_courses_routes';
 import { roomRoutes } from '../app/modules/room/room_route';
@@ -31,5 +32,7 @@ router.use('/semesters', semesterRegistrationRoutes);
 router.use('/offered-courses', offeredCoursesRoutes);
 
 router.use('/offered-course-section', OfferedCourseSectionRoutes);
+
+router.use('/class-schedule', OfferedCourseClassSchedule);
 
 export default router;
