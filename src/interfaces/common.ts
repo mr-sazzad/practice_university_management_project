@@ -24,3 +24,9 @@ export type ICourse = {
     isAcceptDeletion?: boolean;
   }[];
 };
+
+export type IOfferedCourse = {
+  academicDepartmentId: string;
+  semesterRegistrationId: string;
+  courseIds: string[];
+};

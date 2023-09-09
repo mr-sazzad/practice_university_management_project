@@ -16,7 +16,17 @@ const PrismaClientKnownRequestError = (
         path: '',
         message,
       },
-    ];
+    ]; //for handling foreign key errors 🦀
+  } else if (error.code === 'p2003') {
+    if (error.message.includes('delete()` invocation')) {
+      message = 'Delete Failed';
+      errors = [
+        {
+          path: '',
+          message,
+        },
+      ];
+    }
   }
   return {
     statusCode,

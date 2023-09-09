@@ -4,7 +4,10 @@ import { academicFacultyRouter } from '../app/modules/academic_faculty/academic_
 import academicSemesterRoutes from '../app/modules/academic_semester/academic_semester_route';
 import { buildingRoutes } from '../app/modules/bulding/building_route';
 import { facultyRoutes } from '../app/modules/faculty/faculty_route';
+import { OfferedCourseSectionRoutes } from '../app/modules/offered_course_section/offered_course_section_route';
+import { offeredCoursesRoutes } from '../app/modules/offred_couress/offered_courses_routes';
 import { roomRoutes } from '../app/modules/room/room_route';
+import { semesterRegistrationRoutes } from '../app/modules/semester_ragintration/semester_registration_routes';
 import { studentRoutes } from '../app/modules/student/student_route';
 
 const router = express.Router();
@@ -23,6 +26,10 @@ router.use('/buildings', buildingRoutes);
 
 router.use('/rooms', roomRoutes);
 
-// router.use('/semesters', );
+router.use('/semesters', semesterRegistrationRoutes);
+
+router.use('/offered-courses', offeredCoursesRoutes);
+
+router.use('/offered-course-section', OfferedCourseSectionRoutes);
 
 export default router;
