@@ -107,3 +107,21 @@ export const deleteSingleSemester: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const startMyRegistration: RequestHandler = async (req, res, next) => {
+  try {
+    const user = (req as any).user;
+    const result = await semesterRegistrationService.startMyRegistration(
+      user.userId
+    );
+
+    res.status(201).json({
+      status: 201,
+      success: true,
+      message: 'Student Semester Registration started',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

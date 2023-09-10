@@ -1,6 +1,7 @@
 import {
   Prisma,
   SemesterRegistration,
+  StudentSemesterRegistration,
   semesterRegistrationStatus,
 } from '@prisma/client';
 import ApiError from '../../../errors/ApiError';
@@ -32,6 +33,70 @@ const createSemesterRegistration = async (
     data,
   });
   return result;
+};
+
+const startMyRegistration = async (
+  userId: string
+): Promise<{
+  semesterRegistration: SemesterRegistration | null;
+  studentSemesterRegistration: StudentSemesterRegistration | null;
+}> => {
+  const studentInfo = await prisma.student.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!studentInfo) {
+    throw new ApiError(401, 'Student Information not found !');
+  }
+
+  const semesterInfo = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: {
+        in: [
+          semesterRegistrationStatus.UPCOMING,
+          semesterRegistrationStatus.ONGOING,
+        ],
+      },
+    },
+  });
+
+  if (semesterInfo?.status === semesterRegistrationStatus.UPCOMING) {
+    throw new ApiError(401, `Registration Is Not Started yet`);
+  }
+
+  let studentRegistration = await prisma.studentSemesterRegistration.findFirst({
+    where: {
+      student: {
+        id: studentInfo.id,
+      },
+      semesterRegistration: {
+        id: semesterInfo?.id,
+      },
+    },
+  });
+
+  if (!studentRegistration) {
+    studentRegistration = await prisma.studentSemesterRegistration.create({
+      data: {
+        student: {
+          connect: {
+            id: studentInfo.id,
+          },
+        },
+        semesterRegistration: {
+          connect: {
+            id: semesterInfo?.id,
+          },
+        },
+      },
+    });
+  }
+  return {
+    semesterRegistration: semesterInfo,
+    studentSemesterRegistration: studentRegistration,
+  };
 };
 
 const getAllCreatedSemesters = async (
@@ -163,4 +228,5 @@ export const semesterRegistrationService = {
   getSingleCreatedSemester,
   updateSingleSemester,
   deleteSingleSemester,
+  startMyRegistration,
 };

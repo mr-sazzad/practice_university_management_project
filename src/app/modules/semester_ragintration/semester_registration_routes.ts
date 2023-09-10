@@ -4,10 +4,13 @@ import {
   deleteSingleSemester,
   getAllCreatedSemesters,
   getSingleCreatedSemester,
+  startMyRegistration,
   updateSingleSemester,
 } from './semester_registration_controller';
 
 const router = Router();
+
+router.post('/start-registration', startMyRegistration);
 
 router.post('/registration', createSemesterRegistration);
 
