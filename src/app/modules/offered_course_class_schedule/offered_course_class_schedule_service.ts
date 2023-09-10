@@ -6,7 +6,10 @@ import {
 } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../libs/prismadb';
-import { checkRoomAvailability } from '../../../shared/checkRoomAvailability';
+import {
+  checkFacultyAvailability,
+  checkRoomAvailability,
+} from '../../../shared/checkRoomAvailability';
 import {
   offeredCourseClassScheduleRelationalFields,
   offeredCourseClassScheduleRelationalFieldsMapper,
@@ -17,6 +20,7 @@ const createOfferedCourseClassSchedule = async (
   data: OfferedCourseClassSchedule
 ): Promise<OfferedCourseClassSchedule> => {
   await checkRoomAvailability(data);
+  await checkFacultyAvailability(data);
 
   const result = await prisma.offeredCourseClassSchedule.create({
     data,

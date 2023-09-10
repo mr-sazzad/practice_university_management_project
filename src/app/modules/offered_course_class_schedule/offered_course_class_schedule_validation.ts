@@ -8,7 +8,7 @@ export const create = z.object({
     offeredCourseSectionId: z.string({
       required_error: 'Offered course section id is required !',
     }),
-    semseterRegistrationId: z.string({
+    semesterRegistrationId: z.string({
       required_error: ' semester registration id is required !',
     }),
     roomId: z.string({ required_error: ' Room id is required !' }),

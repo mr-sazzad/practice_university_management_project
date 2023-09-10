@@ -230,8 +230,8 @@ model OfferedCourseClassSchedule {
   offeredCourseSectionId String
   offeredCourseSection   OfferedCourseSection @relation(fields: [offeredCourseSectionId], references: [id])
 
-  semseterRegistrationId String
-  semesterRegistration   SemesterRegistration @relation(fields: [semseterRegistrationId], references: [id])
+  semesterRegistrationId String
+  semesterRegistration   SemesterRegistration @relation(fields: [semesterRegistrationId], references: [id])
 
   roomId String
   room   Room   @relation(fields: [roomId], references: [id])

@@ -1,12 +1,12 @@
 import { weekDays } from '@prisma/client';
 
-type ExistingSlots = {
+export type ExistingSlots = {
   startTime: string;
   endTime: string;
   dayOfWeek: weekDays;
 }[];
 
-type NewSlot = {
+export type NewSlot = {
   startTime: string;
   endTime: string;
   dayOfWeek: weekDays;
@@ -22,7 +22,7 @@ export const hasTimeConflict = (
     const newStart = new Date(`1970-01-01T${newSlot.startTime}:00`);
     const newEnd = new Date(`1970-01-01T${newSlot.endTime}:00`);
 
-    if (existingStart > newStart && newEnd > existingEnd) {
+    if (existingEnd > newStart && newEnd > existingStart) {
       return true;
     }
   }
