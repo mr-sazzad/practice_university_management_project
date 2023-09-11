@@ -125,3 +125,23 @@ export const startMyRegistration: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const enrollIntoCourse: RequestHandler = async (req, res, next) => {
+  try {
+    const user = (req as any).user;
+
+    const result = await semesterRegistrationService.enrollIntoCourse(
+      user?.userId,
+      req.body
+    );
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Student Enrolled successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

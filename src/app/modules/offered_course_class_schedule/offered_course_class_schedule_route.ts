@@ -7,7 +7,7 @@ import {
   getSingleOfferedCourseClassSchedule,
   updateOfferedCourseClassSchedule,
 } from './offered_course_class_schedule_controller';
-import { create } from './offered_course_class_schedule_validation';
+import { create, update } from './offered_course_class_schedule_validation';
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router.get('/', getAllOfferedCourseClassSchedule);
 
 router.get('/:id', getSingleOfferedCourseClassSchedule);
 
-router.patch('/:id', updateOfferedCourseClassSchedule);
+router.patch('/:id', validateRequest(update), updateOfferedCourseClassSchedule);
 
 router.delete('/:id', deleteSingeOfferedCourseClassSchedule);
 

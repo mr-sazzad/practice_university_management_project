@@ -36,7 +36,14 @@ export const getAllOfferedCourseClassSchedule: RequestHandler = async (
       'sortBy',
       'sortOrder',
     ]);
-    const filters = pick(req.query, ['searchTerm', 'dayOfWeek']);
+    const filters = pick(req.query, [
+      'searchTerm',
+      'dayOfWeek',
+      'offeredCourseSectionId',
+      'semesterRegistrationId',
+      'roomId',
+      'facultyId',
+    ]);
     const result =
       await OfferedCourseClassScheduleService.getAllOfferedCourseClassSchedule(
         options,

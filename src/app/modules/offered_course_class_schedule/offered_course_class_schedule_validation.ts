@@ -15,3 +15,15 @@ export const create = z.object({
     facultyId: z.string({ required_error: 'Faculty id is required' }),
   }),
 });
+
+export const update = z.object({
+  body: z.object({
+    startTime: z.string().optional(),
+    endTime: z.string().optional(),
+    dayOfWeek: z.string().optional(),
+    offeredCourseSectionId: z.string().optional(),
+    semesterRegistrationId: z.string().optional(),
+    roomId: z.string().optional(),
+    facultyId: z.string().optional(),
+  }),
+});
