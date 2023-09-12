@@ -30,7 +30,7 @@ export const update = z.object({
   }),
 });
 
-export const enrollIntoCourseValidation = z.object({
+export const CourseValidationEnrollOrWithdraw = z.object({
   body: z.object({
     offeredCourseId: z.string({
       required_error: 'offeredCourseId is required',

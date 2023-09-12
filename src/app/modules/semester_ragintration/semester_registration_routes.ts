@@ -8,6 +8,7 @@ import {
   deleteSingleSemester,
   enrollIntoCourse,
   getAllCreatedSemesters,
+  getMyRegistration,
   getSingleCreatedSemester,
   startMyRegistration,
   updateSingleSemester,
@@ -16,6 +17,11 @@ import {
 import { CourseValidationEnrollOrWithdraw } from './semester_registration_validation';
 
 const router = Router();
+router.get(
+  '/get-my-registration',
+  auth(ENUM_USER_ROLE.STUDENT),
+  getMyRegistration
+);
 
 router.post('/start-registration', startMyRegistration);
 

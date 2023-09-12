@@ -183,3 +183,19 @@ export const confirmMyRegistration: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getMyRegistration: RequestHandler = (req, res, next) => {
+  try {
+    const user = (req as any).user;
+    const result = semesterRegistrationService.getMyRegistration(user.userId);
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Registration successfully retrieved',
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
