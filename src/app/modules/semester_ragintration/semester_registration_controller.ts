@@ -130,7 +130,7 @@ export const enrollIntoCourse: RequestHandler = async (req, res, next) => {
   try {
     const user = (req as any).user;
 
-    const result = await semesterRegistrationService.enrollIntoCourse(
+    const result = await semesterRegistrationService.enrollIntoCourseService(
       user?.userId,
       req.body
     );
@@ -139,6 +139,44 @@ export const enrollIntoCourse: RequestHandler = async (req, res, next) => {
       status: 200,
       success: true,
       message: 'Student Enrolled successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const withDrawFromCourse: RequestHandler = async (req, res, next) => {
+  try {
+    const user = (req as any).user;
+
+    const result = await semesterRegistrationService.withDrawFromCourseService(
+      user?.userId,
+      req.body
+    );
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Withdraw from course successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+export const confirmMyRegistration: RequestHandler = async (req, res, next) => {
+  try {
+    const user = (req as any).user;
+
+    const result = await semesterRegistrationService.confirmRegistration(
+      user.userId
+    );
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Registration confirmed successfully',
       data: result,
     });
   } catch (err: any) {

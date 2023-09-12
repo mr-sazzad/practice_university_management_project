@@ -29,3 +29,14 @@ export const update = z.object({
     academicSemesterId: z.string().optional(),
   }),
 });
+
+export const enrollIntoCourseValidation = z.object({
+  body: z.object({
+    offeredCourseId: z.string({
+      required_error: 'offeredCourseId is required',
+    }),
+    offeredCourseSectionId: z.string({
+      required_error: 'offeredCourseSectionId is required',
+    }),
+  }),
+});
