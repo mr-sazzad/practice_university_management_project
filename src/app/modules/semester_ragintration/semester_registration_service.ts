@@ -12,6 +12,8 @@ import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IFilters, IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../libs/prismadb';
+import { studentSemesterPaymentService } from '../studen_semester_payment/student_semester_payment';
+import { studentEnrollCourseMarkService } from '../student_enroll_course_mark/student_enroll_course_mark_service';
 import { studentSemesterRegistrationCourse } from '../student_semester_registration_course/student_semester_registration_course_service';
 
 const createSemesterRegistration = async (
@@ -375,7 +377,7 @@ const startNewSemester = async (semesterId: string) => {
     });
 
     const studentSemesterRegistrations =
-      await prisma.studentSemesterRegistration.findMany({
+      await ts.studentSemesterRegistration.findMany({
         where: {
           semesterRegistration: {
             id: semesterRegistration.id,
@@ -385,8 +387,17 @@ const startNewSemester = async (semesterId: string) => {
       });
     for (const studentRegistration of studentSemesterRegistrations) {
       await (async studentRegistration => {
+        if (studentRegistration.totalCreditsTaken) {
+          const totalPaymentAmount =
+            studentRegistration.totalCreditsTaken * 5000;
+          await studentSemesterPaymentService.createSemesterPayment(ts, {
+            studentId: studentRegistration.studentId,
+            academicSemesterId: semesterRegistration.academicSemesterId,
+            totalPaymentAmount: totalPaymentAmount,
+          });
+        }
         const studentSemesterRegistrationCourses =
-          await prisma.studentSemesterRegistrationCourse.findMany({
+          await ts.studentSemesterRegistrationCourse.findMany({
             where: {
               semesterRegistration: {
                 id: semesterRegistration.id,
@@ -415,7 +426,7 @@ const startNewSemester = async (semesterId: string) => {
               academicSemesterId: semesterRegistration.academicSemesterId,
             };
 
-            const isExist = await prisma.studentEnrolledCourse.findFirst({
+            const isExist = await ts.studentEnrolledCourse.findFirst({
               where: {
                 studentId: RegistrationCourse.studentId,
                 courseId: RegistrationCourse.offeredCourse.courseId,
@@ -424,9 +435,18 @@ const startNewSemester = async (semesterId: string) => {
             });
 
             if (!isExist) {
-              await prisma.studentEnrolledCourse.create({
-                data: enrolledCourseData,
-              });
+              const studentEnrolledCourseData =
+                await ts.studentEnrolledCourse.create({
+                  data: enrolledCourseData,
+                });
+              await studentEnrollCourseMarkService.createStudentEnrolledCourseDefaultMark(
+                ts,
+                {
+                  studentId: studentEnrolledCourseData.studentId,
+                  studentEnrollCourseId: studentEnrolledCourseData.id,
+                  academicSemesterId: semesterRegistration.academicSemesterId,
+                }
+              );
             }
           })(RegistrationCourse);
         }

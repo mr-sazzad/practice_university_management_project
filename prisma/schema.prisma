@@ -36,6 +36,8 @@ model Student {
   studentSemesterRegistrations       StudentSemesterRegistration[]
   studentSemesterRegistrationCourses StudentSemesterRegistrationCourse[]
   studentEnrolledCourses             StudentEnrolledCourse[]
+  studentEnrolledCourseMarks         StudentEnrolledCourseMark[]
+  studentSemesterPayments            StudentSemesterPayment[]
 
   @@map("students")
 }
@@ -67,18 +69,20 @@ model Faculty {
 }
 
 model AcademicSemester {
-  id                     String                  @id @default(uuid())
-  year                   Int
-  title                  String
-  code                   String
-  startMonth             String
-  endMonth               String
-  isCurrent              Boolean                 @default(false)
-  createdAt              DateTime                @default(now())
-  updatedAt              DateTime                @updatedAt
-  students               Student[]
-  semesterRagintrations  SemesterRegistration[]
-  studentEnrolledCourses StudentEnrolledCourse[]
+  id                         String                      @id @default(uuid())
+  year                       Int
+  title                      String
+  code                       String
+  startMonth                 String
+  endMonth                   String
+  isCurrent                  Boolean                     @default(false)
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  students                   Student[]
+  semesterRagintrations      SemesterRegistration[]
+  studentEnrolledCourses     StudentEnrolledCourse[]
+  studentEnrolledCourseMarks StudentEnrolledCourseMark[]
+  studentSemesterPayments    StudentSemesterPayment[]
 
   @@map("academic_semester")
 }
@@ -281,19 +285,50 @@ model StudentSemesterRegistrationCourse {
 }
 
 model StudentEnrolledCourse {
-  id                 String                       @id @default(uuid())
-  createdAt          DateTime                     @default(now())
-  updatedAt          DateTime                     @updatedAt
-  studentId          String
-  student            Student                      @relation(fields: [studentId], references: [id])
-  courseId           String
-  course             Course                       @relation(fields: [courseId], references: [id])
-  academicSemesterId String
-  academicSemester   AcademicSemester             @relation(fields: [academicSemesterId], references: [id])
-  grade              String?
-  point              Float?                       @default(0)
-  totalMarks         Int?                         @default(0)
-  status             StudentEnrolledCourseStatus? @default(ONGOING)
+  id                         String                       @id @default(uuid())
+  createdAt                  DateTime                     @default(now())
+  updatedAt                  DateTime                     @updatedAt
+  studentId                  String
+  student                    Student                      @relation(fields: [studentId], references: [id])
+  courseId                   String
+  course                     Course                       @relation(fields: [courseId], references: [id])
+  academicSemesterId         String
+  academicSemester           AcademicSemester             @relation(fields: [academicSemesterId], references: [id])
+  grade                      String?
+  point                      Float?                       @default(0)
+  totalMarks                 Int?                         @default(0)
+  status                     StudentEnrolledCourseStatus? @default(ONGOING)
+  studentEnrolledCourseMarks StudentEnrolledCourseMark[]
+}
+
+model StudentEnrolledCourseMark {
+  id                      String                @id @default(uuid())
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+  studentId               String
+  student                 Student               @relation(fields: [studentId], references: [id])
+  studentEnrolledCourseId String
+  studentEnrolledCourse   StudentEnrolledCourse @relation(fields: [studentEnrolledCourseId], references: [id])
+  academicSemesterId      String
+  academicSemester        AcademicSemester      @relation(fields: [academicSemesterId], references: [id])
+  grade                   String?
+  marks                   Int?
+  examType                ExamType?             @default(MIDTERM)
+}
+
+model StudentSemesterPayment {
+  id                   String           @id @default(uuid())
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  studentId            String
+  student              Student          @relation(fields: [studentId], references: [id])
+  academicSemesterId   String
+  academicSemester     AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+  fullPaymentAmount    Int?             @default(0)
+  partialPaymentAmount Int?             @default(0)
+  totalPaidAmount      Int?             @default(0)
+  totalDueAmount       Int?             @default(0)
+  paymentStatus        PaymentStats?    @default(PENDING)
 }
 
 // enum type for semester registration 🧩
@@ -317,4 +352,15 @@ enum StudentEnrolledCourseStatus {
   ONGOING
   COMPLETED
   WITHDRAWN
+}
+
+enum ExamType {
+  MIDTERM
+  FINAL
+}
+
+enum PaymentStats {
+  PENDING
+  PARTIAL_PAID
+  FULL_PAID
 }
