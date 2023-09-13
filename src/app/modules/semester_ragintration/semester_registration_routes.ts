@@ -11,6 +11,7 @@ import {
   getMyRegistration,
   getSingleCreatedSemester,
   startMyRegistration,
+  startNewSemester,
   updateSingleSemester,
   withDrawFromCourse,
 } from './semester_registration_controller';
@@ -26,6 +27,12 @@ router.get(
 router.post('/start-registration', startMyRegistration);
 
 router.post('/registration', createSemesterRegistration);
+
+router.post(
+  '/:id/start-new-semester',
+  auth(ENUM_USER_ROLE.ADMIN),
+  startNewSemester
+);
 
 router.get('/', getAllCreatedSemesters);
 

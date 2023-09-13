@@ -199,3 +199,18 @@ export const getMyRegistration: RequestHandler = (req, res, next) => {
     next(err);
   }
 };
+
+export const startNewSemester: RequestHandler = (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const result = semesterRegistrationService.startNewSemester(id);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: 'Registration successfully retrieved',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
