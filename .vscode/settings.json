@@ -4,5 +4,12 @@
     "source.fixAll.tslint": true,
     "source.organizeImports": true
   },
-  "cSpell.words": ["Gopalganj", "middlewares", "Offred", "prismadb"]
+  "cSpell.words": [
+    "Aand",
+    "CGPA",
+    "Gopalganj",
+    "middlewares",
+    "Offred",
+    "prismadb"
+  ]
 }

@@ -10,6 +10,7 @@ import { offeredCoursesRoutes } from '../app/modules/offred_couress/offered_cour
 import { roomRoutes } from '../app/modules/room/room_route';
 import { semesterRegistrationRoutes } from '../app/modules/semester_ragintration/semester_registration_routes';
 import { studentRoutes } from '../app/modules/student/student_route';
+import { studentEnrollCourseMarkRoutes } from '../app/modules/student_enroll_course_mark/student_enroll_course_mark_route';
 
 const router = express.Router();
 
@@ -34,5 +35,7 @@ router.use('/offered-courses', offeredCoursesRoutes);
 router.use('/offered-course-section', OfferedCourseSectionRoutes);
 
 router.use('/class-schedule', OfferedCourseClassSchedule);
+
+router.use('/student-enroll-course-mark', studentEnrollCourseMarkRoutes);
 
 export default router;

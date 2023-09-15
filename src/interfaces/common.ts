@@ -1,3 +1,4 @@
+import { weekDays } from '@prisma/client';
 import { IGenericErrorMessage } from './error';
 
 export type IGenericResponse<T> = {
@@ -36,4 +37,19 @@ export type IOfferedCourseClassScheduleFilterRequest = {
   offeredCourseSectionId?: string | null;
   roomId?: string | null;
   facultyId?: string | null;
+};
+
+export type IClassSchedule = {
+  startTime: string;
+  endTime: string;
+  dayOfWeek: weekDays;
+  roomId: string;
+  facultyId: string;
+};
+
+export type IOfferedCourseSectionPayload = {
+  title: string;
+  maxCapacity: number;
+  offeredCourseId: string;
+  classSchedules: IClassSchedule[];
 };
