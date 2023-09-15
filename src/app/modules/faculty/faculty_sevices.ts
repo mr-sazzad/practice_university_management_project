@@ -152,6 +152,75 @@ const removeCourses = async (id: string, payload: string[]) => {
   return response;
 };
 
+const myCourses = async (
+  user: {
+    userId: string;
+    role: string;
+  },
+
+  filter: {
+    courseId?: string | undefined | null;
+    academicSemesterId?: string | null | undefined;
+  }
+) => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const offeredCourseSections = await prisma.offeredCourseSection.findMany({
+    where: {
+      offeredCourseClassSchedules: {
+        some: {
+          faculty: {
+            facultyId: user.userId,
+          },
+        },
+      },
+      offeredCourse: {
+        semesterRegistration: {
+          academicSemester: {
+            id: filter.academicSemesterId,
+          },
+        },
+      },
+    },
+    include: {
+      offeredCourse: {
+        include: {
+          course: true,
+        },
+      },
+      offeredCourseClassSchedules: {
+        include: {
+          room: {
+            include: {
+              Building: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  // const result = prisma.courseFaculty.findMany({
+  //   where: {
+  //     faculty: {
+  //       facultyId: user.userId,
+  //     },
+  //   },
+  //   include: {
+  //     course: true,
+  //   },
+  // });
+
+  // return result;
+};
+
 export const facultyServices = {
   createFaculty,
   getAllFaculty,
@@ -160,4 +229,5 @@ export const facultyServices = {
   deleteSingleFaculty,
   assignCourses,
   removeCourses,
+  myCourses,
 };

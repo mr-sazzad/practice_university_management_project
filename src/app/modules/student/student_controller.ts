@@ -96,3 +96,19 @@ export const deleteSingleUser: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const myCourses: RequestHandler = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const filter = pick(req.query, ['courseId', 'academicSemesterId']);
+    const result = await studentServices.myCourses(user?.userId, filter);
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'courses retrieved successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};

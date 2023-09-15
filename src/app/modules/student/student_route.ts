@@ -5,20 +5,23 @@ import {
   deleteSingleUser,
   getAllStudents,
   getSingleStudent,
+  myCourses,
   updateSingleUser,
 } from './student_controller';
 import { create, update } from './student_validation';
 
 const router = Router();
 
-router.post('/create-student', validateRequest(create), createStudent);
+router.get('/my-courses', myCourses);
 
-router.get('/', getAllStudents);
+router.post('/create-student', validateRequest(create), createStudent);
 
 router.get('/:id', getSingleStudent);
 
 router.patch('/:id', validateRequest(update), updateSingleUser);
 
 router.delete('/:id', deleteSingleUser);
+
+router.get('/', getAllStudents);
 
 export const studentRoutes = router;

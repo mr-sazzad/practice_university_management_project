@@ -96,3 +96,21 @@ export const removeCourses: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const myCourses: RequestHandler = async (req, res, next) => {
+  try {
+    const user = (req as any).user;
+    const filter = pick(req.query, ['academicSemesterId', 'courseId']);
+
+    const result = await facultyServices.myCourses(user, filter);
+
+    res.status(200).json({
+      statusCode: 200,
+      success: true,
+      message: 'Courses Retrieved successfully!',
+      data: result,
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
